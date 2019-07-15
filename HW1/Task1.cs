@@ -66,12 +66,19 @@ namespace HW1
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
+
+        //public static By list = new By[] { By.CssSelector("dfsg"), By.XPath("//a") };
+
         [Test(Description = "Get all titles from items from #3")]
-        public void GetAllTitlesFromNewsTest()
+        //[TestCase("list")]
+        public void GetAllTitlesFromNewsTest(By selectBy)
         {
+            //string selector = ".readmore_title";
+            //By selectBy = By.CssSelector(selector);
+
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(By.CssSelector(".readmore_title"))).ToList();
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
         }
@@ -79,10 +86,27 @@ namespace HW1
         [Test(Description = "Find element with text Киев")]
         public void FindElementWithTextKievTest()
         {
+            string selector = "//span[contains(.,'Киев')]";
+            By selectBy = By.XPath(selector);
+
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> elelementsList = wait.Until(d => d.FindElements(By.XPath("//span[contains(.,'Киев')]"))).ToList();
+            List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            Assert.That(elelementsList, Has.Count.EqualTo(1));
+        }
+
+        [Test(Description = "Find the element that describes city next after Киев")]
+        public void FindElementWithCityAfterKievTest()
+        {
+            string selector = "//span[text()='Киев']/../../following-sibling::div[1]";
+            By selectBy = By.XPath(selector);
+
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
     }
 }
+//     
