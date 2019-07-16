@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HW1
 {
@@ -26,56 +24,94 @@ namespace HW1
         [TearDown]
         public void TearDownTest()
         {
-            driver.Close();
+            driver.Dispose();
         }
 
-        [Test(Description = "Find all divs on the page")]
-        public void FindAllDivsTest()
+
+        static List<By> listFindAllDivsTest = new List<By>
+        {
+            By.CssSelector("div"),
+            By.TagName("div"),
+            By.XPath("//div")
+        };
+
+        [Test, TestCaseSource("listFindAllDivsTest")]
+        [Description("Find all divs on the page")]
+        public void FindAllDivsTest(By selectBy)
         {
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(By.CssSelector("div"))).ToList();
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.Not.LessThan(300));
         }
 
-        [Test(Description = "Find all divs with h2 class")]
-        public void FindAllDivsWithH2ClassTest()
-        {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(By.CssSelector("div.h2"))).ToList();
-            Assert.That(divsList, Has.Count.EqualTo(0));
-        }
 
-        [Test(Description = "Find all spans with news titles(the block under list of cities)(6 items)")]
-        [Description("Actually should: Find all divs")]
-        public void FindAllSpansWithNewsTitleTest()
+        static List<By> listFindAllDivsWithH2ClassTest = new List<By>
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(By.CssSelector(".readmore_item"))).ToList();
-            Assert.That(divsList, Has.Count.EqualTo(4));
-        }
+            By.CssSelector("._line.timeline"),
+            By.ClassName("timeline"),
+            By.XPath(".//*[contains(@class, 'timeline')]")
+        };
 
-        [Test(Description = "Find the last span with news title")]
-        public void FindLastSpanWithNewsTitleTest()
+        [Test, TestCaseSource("listFindAllDivsWithH2ClassTest")]
+        [Description("Find all divs with '_line timeline clearfix' class")]
+        public void FindAllDivsWithH2ClassTest(By selectBy)
         {
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(By.CssSelector(".readmore_item:last-child"))).ToList();
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
 
-        //public static By list = new By[] { By.CssSelector("dfsg"), By.XPath("//a") };
+        static List<By> listFindAllSpansWithNewsTitleTest = new List<By>
+        {
+            By.CssSelector(".readmore_title"),
+            By.ClassName("readmore_title"),
+            By.XPath(".//*[contains(@class, 'readmore_title')]")
+        };
 
-        [Test(Description = "Get all titles from items from #3")]
-        //[TestCase("list")]
+        [Test, TestCaseSource("listFindAllSpansWithNewsTitleTest")]
+        [Description("Find all spans with news titles(the block under list of cities)(6 items)")]
+        //Actually should: Find all divs
+        public void FindAllSpansWithNewsTitleTest(By selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            Assert.That(divsList, Has.Count.EqualTo(4));
+        }
+
+
+
+        static List<By> listFindLastSpanWithNewsTitleTest = new List<By>
+        {
+            By.CssSelector(".readmore_item:last-child"),
+            By.XPath("//*[@class='readmore_list']/*[last()]")
+        };
+
+        [Test, TestCaseSource("listFindLastSpanWithNewsTitleTest")]
+        [Description("Find the last span with news title")]
+        public void FindLastSpanWithNewsTitleTest(By selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            Assert.That(divsList, Has.Count.EqualTo(1));
+        }
+
+
+        static List<By> listGetAllTitlesFromNews = new List<By>
+        {
+            By.CssSelector(".readmore_title"),
+            By.ClassName("readmore_title"),
+            By.XPath("//*[contains(@class, 'readmore_title')]")
+        };
+
+        [Test, TestCaseSource("listGetAllTitlesFromNews")]
+        [Description("Get all titles from items from #3")]
         public void GetAllTitlesFromNewsTest(By selectBy)
         {
-            //string selector = ".readmore_title";
-            //By selectBy = By.CssSelector(selector);
-
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
@@ -83,7 +119,8 @@ namespace HW1
             Assert.That(titles, Has.Count.EqualTo(4));
         }
 
-        [Test(Description = "Find element with text Киев")]
+        [Test]
+        [Description("Find element with text Киев")]
         public void FindElementWithTextKievTest()
         {
             string selector = "//span[contains(.,'Киев')]";
@@ -95,7 +132,8 @@ namespace HW1
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
 
-        [Test(Description = "Find the element that describes city next after Киев")]
+        [Test]
+        [Description("Find the element that describes city next after Киев")]
         public void FindElementWithCityAfterKievTest()
         {
             string selector = "//span[text()='Киев']/../../following-sibling::div[1]";
@@ -107,6 +145,45 @@ namespace HW1
 
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
+
+
+        static List<By> listGetAllTopMenuLinksTest = new List<By>
+        {
+            By.CssSelector(".nav_type_menu a"),
+            By.XPath("//*[contains(@class,'nav_type_menu')]//descendant::a")
+        };
+
+        [Test, TestCaseSource("listGetAllTopMenuLinksTest")]
+        [Description(" Find all top menu link ")]
+        public void GetAllTopMenuLinksTest(By selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<string> titles = divsList.Select(el => el.Text).ToList();
+            Assert.That(titles, Has.Count.EqualTo(4));
+        }
+
+
+        static List<By> listGetElementForThreeWeekdaysTest = new List<By>
+        {
+            By.CssSelector(""),
+            By.XPath("")
+        };
+
+        [Test, TestCaseSource("listGetElementForThreeWeekdaysTest")]
+        [Description(" On the current city weather page find element for 3 current weekdays. ")]
+        [Ignore("unfinished")]
+        public void GetElementForThreeWeekdaysTest(By selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            wait.Until(d => d.FindElement(By.CssSelector("a[href*='month']"))).Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(selectBy));
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            Assert.That(divsList, Has.Count.EqualTo(4));
+        }
+
+
     }
 }
-//     
