@@ -18,6 +18,7 @@ namespace HW1
         public void SetupTest()
         {
             driver = new ChromeDriver();
+            driver.Manage().Timeouts().ImplicitWait = Config.ImplicitWait;
             driver.Manage().Window.Maximize();
         }
 
@@ -118,7 +119,7 @@ namespace HW1
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
         }
-
+        [Order(6)]
         [Test]
         [Description("Find element with text Киев")]
         public void FindElementWithTextKievTest()
@@ -131,7 +132,7 @@ namespace HW1
             List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
-
+        [Order(7)]
         [Test]
         [Description("Find the element that describes city next after Киев")]
         public void FindElementWithCityAfterKievTest()
@@ -146,13 +147,13 @@ namespace HW1
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
 
-
+        // # 8
         static List<By> listGetAllTopMenuLinksTest = new List<By>
         {
             By.CssSelector(".nav_type_menu a"),
             By.XPath("//*[contains(@class,'nav_type_menu')]//descendant::a")
         };
-
+        [Order(8)]
         [Test, TestCaseSource("listGetAllTopMenuLinksTest")]
         [Description(" Find all top menu link ")]
         public void GetAllTopMenuLinksTest(By selectBy)
@@ -164,26 +165,68 @@ namespace HW1
             Assert.That(titles, Has.Count.EqualTo(4));
         }
 
-
+        // # 9
         static List<By> listGetElementForThreeWeekdaysTest = new List<By>
         {
-            By.CssSelector(""),
-            By.XPath("")
+            By.CssSelector("a[href*='3-days']"),
+            By.XPath("//a[contains(@href, '3-days')]")
         };
-
+        [Order(9)]
         [Test, TestCaseSource("listGetElementForThreeWeekdaysTest")]
         [Description(" On the current city weather page find element for 3 current weekdays. ")]
-        [Ignore("unfinished")]
         public void GetElementForThreeWeekdaysTest(By selectBy)
         {
             driver.Navigate().GoToUrl(homeURL);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until(d => d.FindElement(By.CssSelector("a[href*='month']"))).Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(selectBy));
+            //wait.Until(d => d.FindElement(By.CssSelector("a[href*='month']"))).Click();
+            //wait.Until(ExpectedConditions.ElementIsVisible(selectBy));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
-            Assert.That(divsList, Has.Count.EqualTo(4));
+            Assert.That(divsList, Has.Count.EqualTo(1));
+        }
+
+        // # 10
+        static List<By> listGetElementForCurrentlySelectedweekdayTest = new List<By>
+        {
+            By.CssSelector("li.nolink:first-child > a"),
+            By.XPath("//li[contains(@class, 'nolink')][1]/a")
+        };
+        [Order(10)]
+        [Test, TestCaseSource("listGetElementForCurrentlySelectedweekdayTest")]
+        [Description("Find element for currently selected weekday")]
+        public void GetElementForCurrentlySelectedweekdayTest(By selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
 
+        // # 11
+        static List<Tuple<By, By>> listGetElementWhenMainlyClearTest = new List<Tuple<By, By>>
+        {
+            Tuple.Create(By.CssSelector("[data-icon='n_c2']"),
+            By.CssSelector("[data-type='temperature']")),
+            Tuple.Create(By.XPath("//*[@data-icon='n_c2']"),
+                By.XPath("//*[@data-type='temperature']"))
+        };
+
+        [Order(11)]
+        [Test, TestCaseSource("listGetElementWhenMainlyClearTest")]
+        [Description("Find temperature when it's Малооблачно (1 element!!)")]
+        public void GetElementWhenMainlyClearTest(Tuple<By, By> selectBy)
+        {
+            driver.Navigate().GoToUrl(homeURL);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            if (driver.ElementIsPresent(selectBy.Item1))
+            {
+                List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy.Item2)).ToList();
+                Assert.That(divsList, Has.Count.EqualTo(1).And.Not.Null);
+            }
+            else
+            {
+                Assert.Fail("There is no element 'Малооблачно' on the page");
+            }
+        }
     }
 }
