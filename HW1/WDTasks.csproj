@@ -55,10 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="Task1.cs" />
+    <Compile Include="Configs\Config.cs" />
+    <Compile Include="Tests\BaseFixture.cs" />
+    <Compile Include="Tests\GismeteoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebElementExtensions.cs" />
+    <Compile Include="Tests\WizzAirTests.cs" />
+    <Compile Include="WebDriverExtensions\WebElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,31 +1,25 @@
-﻿using NUnit.Framework;
+﻿using HW1;
+using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HW1
+namespace Tests
 {
-    [TestFixture, Description("WD Practice Part1. Gismeteo.ua")]
-    public class Task1
+    [TestFixture]
+    [Description("WD Practice Part1. Gismeteo.ua")]
+    public class GismeteoTests : BaseFixture
     {
-        private IWebDriver driver;
-        private readonly string homeURL = "https://www.gismeteo.ua/";
 
-        [SetUp]
-        public void SetupTest()
-        {
-            driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = Config.ImplicitWait;
-            driver.Manage().Window.Maximize();
-        }
 
-        [TearDown]
-        public void TearDownTest()
+        [OneTimeSetUp]
+        public void SetUpFixture()
         {
-            driver.Dispose();
+            homeURL = "https://www.gismeteo.ua/";
+            driver.Navigate().GoToUrl(homeURL);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
         }
 
 
@@ -40,8 +34,6 @@ namespace HW1
         [Description("Find all divs on the page")]
         public void FindAllDivsTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.Not.LessThan(300));
         }
@@ -58,8 +50,6 @@ namespace HW1
         [Description("Find all divs with '_line timeline clearfix' class")]
         public void FindAllDivsWithH2ClassTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
@@ -77,8 +67,6 @@ namespace HW1
         //Actually should: Find all divs
         public void FindAllSpansWithNewsTitleTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(4));
         }
@@ -95,8 +83,6 @@ namespace HW1
         [Description("Find the last span with news title")]
         public void FindLastSpanWithNewsTitleTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
@@ -113,8 +99,6 @@ namespace HW1
         [Description("Get all titles from items from #3")]
         public void GetAllTitlesFromNewsTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
@@ -127,8 +111,6 @@ namespace HW1
             string selector = "//span[contains(.,'Киев')]";
             By selectBy = By.XPath(selector);
 
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
@@ -140,10 +122,7 @@ namespace HW1
             string selector = "//span[text()='Киев']/../../following-sibling::div[1]";
             By selectBy = By.XPath(selector);
 
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
-
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
 
@@ -158,8 +137,6 @@ namespace HW1
         [Description(" Find all top menu link ")]
         public void GetAllTopMenuLinksTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
@@ -176,10 +153,6 @@ namespace HW1
         [Description(" On the current city weather page find element for 3 current weekdays. ")]
         public void GetElementForThreeWeekdaysTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            //wait.Until(d => d.FindElement(By.CssSelector("a[href*='month']"))).Click();
-            //wait.Until(ExpectedConditions.ElementIsVisible(selectBy));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
@@ -195,8 +168,6 @@ namespace HW1
         [Description("Find element for currently selected weekday")]
         public void GetElementForCurrentlySelectedweekdayTest(By selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
@@ -216,8 +187,6 @@ namespace HW1
         [Description("Find temperature when it's Малооблачно (1 element!!)")]
         public void GetElementWhenMainlyClearTest(Tuple<By, By> selectBy)
         {
-            driver.Navigate().GoToUrl(homeURL);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             if (driver.ElementIsPresent(selectBy.Item1))
             {
                 List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy.Item2)).ToList();
