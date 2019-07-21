@@ -1,7 +1,6 @@
 ﻿using HW1;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +11,11 @@ namespace Tests
     [Description("WD Practice Part1. Gismeteo.ua")]
     public class GismeteoTests : BaseFixture
     {
-
-
         [OneTimeSetUp]
         public void SetUpFixture()
         {
             homeURL = "https://www.gismeteo.ua/";
             driver.Navigate().GoToUrl(homeURL);
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
         }
 
 

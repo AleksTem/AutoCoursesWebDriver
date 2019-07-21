@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace Tests
 {
@@ -18,6 +19,7 @@ namespace Tests
             driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitWait = Config.ImplicitWait;
             driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
         }
 
         [OneTimeTearDown]
