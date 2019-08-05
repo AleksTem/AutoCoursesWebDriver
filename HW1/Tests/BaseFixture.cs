@@ -1,31 +1,30 @@
-﻿using HW1;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace Tests
+namespace WD_Tests
 {
     public class BaseFixture
     {
-        protected IWebDriver driver;
-        protected string homeURL;
-        protected WebDriverWait wait;
+        protected IWebDriver Driver;
+        ////protected string HomeURL;
+        protected WebDriverWait Wait;
 
         [OneTimeSetUp]
         public void SetupTest()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = Config.ImplicitWait;
-            driver.Manage().Window.Maximize();
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            Driver = new ChromeDriver();
+            Driver.Manage().Timeouts().ImplicitWait = DriverConfig.NoWait;
+            Driver.Manage().Window.Maximize();
+            Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(30));
         }
 
         [OneTimeTearDown]
         public void TearDownTest()
         {
-            driver.Dispose();
+            //Driver.Quit();
         }
 
     }

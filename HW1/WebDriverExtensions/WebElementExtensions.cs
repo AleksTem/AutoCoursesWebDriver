@@ -1,13 +1,13 @@
 ﻿using OpenQA.Selenium;
 
-namespace HW1
+namespace WD_Tests
 {
     public static class WebElementExtensions
     {
         public static bool ElementIsPresent(this IWebDriver driver, By by)
         {
             var present = false;
-            driver.Manage().Timeouts().ImplicitWait = Config.NoWait;
+            driver.Manage().Timeouts().ImplicitWait = DriverConfig.NoWait;
             try
             {
                 present = driver.FindElement(by).Displayed;
@@ -15,7 +15,7 @@ namespace HW1
             catch (NoSuchElementException)
             {
             }
-            driver.Manage().Timeouts().ImplicitWait = Config.ImplicitWait;
+            driver.Manage().Timeouts().ImplicitWait = DriverConfig.ImplicitWait;
             return present;
         }
 

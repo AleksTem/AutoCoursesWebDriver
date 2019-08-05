@@ -1,11 +1,10 @@
-﻿using HW1;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests
+namespace WD_Tests
 {
     [TestFixture]
     [Description("WD Practice Part1. Gismeteo.ua")]
@@ -14,8 +13,7 @@ namespace Tests
         [OneTimeSetUp]
         public void SetUpFixture()
         {
-            homeURL = "https://www.gismeteo.ua/";
-            driver.Navigate().GoToUrl(homeURL);
+            Driver.Navigate().GoToUrl(GismeteoUtils.BaseUrl);
         }
 
 
@@ -30,14 +28,14 @@ namespace Tests
         [Description("Find all divs on the page")]
         public void FindAllDivsTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.Not.LessThan(300));
         }
 
 
         static List<By> listFindAllDivsWithH2ClassTest = new List<By>
         {
-            By.CssSelector("._line.timeline"),
+            By.CssSelector(".timeline"),
             By.ClassName("timeline"),
             By.XPath(".//*[contains(@class, 'timeline')]")
         };
@@ -46,7 +44,7 @@ namespace Tests
         [Description("Find all divs with '_line timeline clearfix' class")]
         public void FindAllDivsWithH2ClassTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
@@ -63,7 +61,7 @@ namespace Tests
         //Actually should: Find all divs
         public void FindAllSpansWithNewsTitleTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(4));
         }
 
@@ -79,7 +77,7 @@ namespace Tests
         [Description("Find the last span with news title")]
         public void FindLastSpanWithNewsTitleTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
@@ -95,7 +93,7 @@ namespace Tests
         [Description("Get all titles from items from #3")]
         public void GetAllTitlesFromNewsTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
         }
@@ -107,7 +105,7 @@ namespace Tests
             string selector = "//span[contains(.,'Киев')]";
             By selectBy = By.XPath(selector);
 
-            List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> elelementsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
         [Order(7)]
@@ -118,7 +116,7 @@ namespace Tests
             string selector = "//span[text()='Киев']/../../following-sibling::div[1]";
             By selectBy = By.XPath(selector);
 
-            List<IWebElement> elelementsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> elelementsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(elelementsList, Has.Count.EqualTo(1));
         }
 
@@ -133,7 +131,7 @@ namespace Tests
         [Description(" Find all top menu link ")]
         public void GetAllTopMenuLinksTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             List<string> titles = divsList.Select(el => el.Text).ToList();
             Assert.That(titles, Has.Count.EqualTo(4));
         }
@@ -149,7 +147,7 @@ namespace Tests
         [Description(" On the current city weather page find element for 3 current weekdays. ")]
         public void GetElementForThreeWeekdaysTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
@@ -164,7 +162,7 @@ namespace Tests
         [Description("Find element for currently selected weekday")]
         public void GetElementForCurrentlySelectedweekdayTest(By selectBy)
         {
-            List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy)).ToList();
+            List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy)).ToList();
             Assert.That(divsList, Has.Count.EqualTo(1));
         }
 
@@ -173,9 +171,13 @@ namespace Tests
         static List<Tuple<By, By>> listGetElementWhenMainlyClearTest = new List<Tuple<By, By>>
         {
             Tuple.Create(By.CssSelector("[data-icon='n_c2']"),
-            By.CssSelector("[data-type='temperature']")),
+                        By.CssSelector("[data-type='temperature']")),
             Tuple.Create(By.XPath("//*[@data-icon='n_c2']"),
-                By.XPath("//*[@data-type='temperature']"))
+                        By.XPath("//*[@data-type='temperature']")),
+
+            Tuple.Create(By.XPath("//*[contains(text(),'Облачно') or contains(text(), 'Хмарно')]"),
+                        By.CssSelector("[data-type='temperature']")),
+
         };
 
         [Order(11)]
@@ -183,9 +185,9 @@ namespace Tests
         [Description("Find temperature when it's Малооблачно (1 element!!)")]
         public void GetElementWhenMainlyClearTest(Tuple<By, By> selectBy)
         {
-            if (driver.ElementIsPresent(selectBy.Item1))
+            if (Driver.ElementIsPresent(selectBy.Item1))
             {
-                List<IWebElement> divsList = wait.Until(d => d.FindElements(selectBy.Item2)).ToList();
+                List<IWebElement> divsList = Wait.Until(d => d.FindElements(selectBy.Item2)).ToList();
                 Assert.That(divsList, Has.Count.EqualTo(1).And.Not.Null);
             }
             else
