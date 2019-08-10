@@ -59,9 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WizzAir\WizzAir.csproj">
+    <ProjectReference Include="..\WizzAir\WizzAirComponents.csproj">
       <Project>{44cf045b-e9da-4b15-ab26-d87d668ce366}</Project>
-      <Name>WizzAir</Name>
+      <Name>WizzAirComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

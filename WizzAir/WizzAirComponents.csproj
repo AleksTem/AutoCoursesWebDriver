@@ -61,7 +61,6 @@
     <Compile Include="Components\PageObjects\StartPage\PageElements.cs" />
     <Compile Include="Components\PageObjects\StartPage\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\TestFixture.cs" />
     <Compile Include="Utils\Configs\ApplicationConfig.cs" />
     <Compile Include="Utils\Configs\DriverConfig.cs" />
   </ItemGroup>

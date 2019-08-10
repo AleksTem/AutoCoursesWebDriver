@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDTasks", "HW1\WDTasks.csproj", "{14E27F69-FF5E-4758-99F2-3DE2A2F8FC9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizzAir", "WizzAir\WizzAir.csproj", "{44CF045B-E9DA-4B15-AB26-D87D668CE366}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizzAirComponents", "WizzAir\WizzAirComponents.csproj", "{44CF045B-E9DA-4B15-AB26-D87D668CE366}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizzAirTests", "WizzAirTests\WizzAirTests.csproj", "{D763BB76-5A6C-45EF-A184-1F091E908E6D}"
 EndProject

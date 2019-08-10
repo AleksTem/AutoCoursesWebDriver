@@ -59,28 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\DriverConfig.cs" />
-    <Compile Include="PageObjects\WizzAirBasePage.cs" />
-    <Compile Include="PageObjects\WizzAirSelectFlightPage.cs" />
-    <Compile Include="PageObjects\WizzAirHomePage.cs" />
     <Compile Include="Tests\BaseFixture.cs" />
     <Compile Include="Tests\GismeteoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\WizzAirTests.cs" />
-    <Compile Include="Utils\WizzAir\PageElements\HomePageElements\Navigation.cs" />
-    <Compile Include="Utils\WizzAir\PageElements\HomePageElements\FlightDate.cs" />
-    <Compile Include="Utils\WizzAir\PageElements\HomePageElements\Airport.cs" />
-    <Compile Include="Utils\WizzAir\Models\FlightDetail.cs" />
-    <Compile Include="Configs\WizzAirConfig.cs" />
     <Compile Include="Utils\Gismeteo\GismeteoUtils.cs" />
-    <Compile Include="Utils\WizzAir\PageElements\SelectFlightPageElements\SelectFlightElements.cs" />
     <Compile Include="WebDriverExtensions\WebElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\WizzAir\PageElements\SearchFlightPageElements\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
