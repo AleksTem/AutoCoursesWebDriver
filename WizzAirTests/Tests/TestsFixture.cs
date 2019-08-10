@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WizzAir.Utils.Configs;
 using WizzAir.Components.PageObjects;
 using WizzAir.Components.Models;
+using WizzAir.Components.Enums;
 
 namespace WizzAirTests.Tests
 {
@@ -36,8 +37,10 @@ namespace WizzAirTests.Tests
             startPage.SetOriginAirPort(flight.DepartureAirport)
                 .SetDestinationAirport(flight.ArrivalAirport)
                 .SetDepartureDate(ref flight)
+                .SetReturnDate(ref flight)
                 .Search()
-                .VerifyContent(flight);
+                .VerifySelectedFlightContent(flight)
+                .ChoosePrice(ServiceLevel.WizzGo);
 
         }
 

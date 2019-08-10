@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using WizzAir.Components.Enums;
 using WizzAir.Components.Models;
 
 namespace WizzAir.Components.PageObjects
@@ -22,35 +24,65 @@ namespace WizzAir.Components.PageObjects
             _driver = driver;
             _wait = wait;
             _wait.Timeout = TimeSpan.FromSeconds(10);
-            //_wait.Until(ExpectedConditions.ElementExists(By.TagName("body")));
             WaitForDocumentReady();
         }
 
-        public void VerifyContent(FlightDetails expected)
+        public SelectFlightPage VerifySelectedFlightContent(FlightDetails expected)
         {
+            Assert.That(DepartureDate, Is.EqualTo(expected.DepartureDate));
+            Assert.That(RouteElem.Text, Does.Contain(expected.DepartureAirport)
+                .And.Contain(expected.ArrivalAirport));
 
-            /*- Verify:
-                    flight date
-                    arrival/destination points
-                    correct date is selected
-                    3 options with different prices are displayed, check prices
-                    return flights are not displayed
-            */
-            Assert.That(Route.Text, Does.Contain(expected.DepartureAirport).And.Contain(expected.ArrivalAirport));
-            var result = DateTime.TryParse(FlightDate.GetAttribute("datetime"), out DateTime flightDateOnUI);
-            if (!result)
-            {
-                throw new Exception("Failed date parsing in VerifyContent()");
-            }
-            Assert.That(flightDateOnUI, Is.EqualTo(expected.DepartureDate));
             Assert.That(ReturnFlightBlock.Count, Is.EqualTo(0));
             WaitForBlocker();
-            PriceButton.Click();
+            return this;
         }
 
-        private IWebElement Route => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.Address));
-        private IWebElement FlightDate => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.FlightDate));
-        private ReadOnlyCollection<IWebElement> ReturnFlightBlock => _driver.FindElements(SelectFlightElements.ReturnFlight);
-        private IWebElement PriceButton => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.PriceButton));
+        public void ChoosePrice(ServiceLevel priceLevel)
+        {
+            PriceButton.Click();
+            switch (priceLevel)
+            {
+                case ServiceLevel.WizzBasic:
+                    WizzBasicPrice.Click();
+                    break;
+                case ServiceLevel.WizzGo:
+                    WizzGoPrice.Click();
+                    break;
+                case ServiceLevel.WizzPlus:
+                    WizzPlusPrice.Click();
+                    break;
+            }
+        }
+
+        private DateTime DepartureDate {
+            get
+            {
+                var result = DateTime.TryParse(FlightDateElem.GetAttribute("datetime"), out DateTime flightDateOnUI);
+                if (!result)
+                {
+                    throw new Exception($"Failed date parsing. {MethodBase.GetCurrentMethod().Name}");
+                }
+                return flightDateOnUI;
+            }
+        }
+
+        private IWebElement RouteElem => 
+            _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.Address));
+        private IWebElement FlightDateElem => 
+            _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.FlightDate));
+        private ReadOnlyCollection<IWebElement> ReturnFlightBlock => 
+            _driver.FindElements(SelectFlightElements.ReturnFlight);
+        private IWebElement PriceButton => 
+            _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.PriceButton));
+        private IWebElement WizzBasicPrice => 
+            _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.WizzBasicPriceButton));
+        private IWebElement WizzPlusPrice => 
+            _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.WizzBasicPriceButton));
+        private IWebElement WizzGoPrice => 
+            _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.WizzBasicPriceButton));
+
+
+
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WizzAir.Utils.Helpers;
 
 namespace WizzAir.Components.PageObjects
 {
@@ -34,10 +35,10 @@ namespace WizzAir.Components.PageObjects
 
         public void WaitForBlocker()
         {
-            //_wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(".flight-search__panel.flight-search__panel--sub.flight-search__panel--sub--date.loader-combined")));
-            //_wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(".loader-combined")));
-            _wait.Timeout = TimeSpan.FromSeconds(50);
+            TimeSpan temp = _wait.Timeout;
+            _wait.Timeout = TimeSpan.FromSeconds(120);
             _wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(".loader-combined")));
+            _wait.Timeout = temp;
         }
 
     }

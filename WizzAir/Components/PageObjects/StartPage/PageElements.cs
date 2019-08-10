@@ -16,10 +16,18 @@ namespace WizzAir.Components.PageObjects
 
     public static class FlightDate
     {
-        public static By Departure => By.CssSelector("label.arrival-input");
+        public static By DepartureDate => By.Id("search-departure-date"); //By.CssSelector("label.arrival-input");
+        public static By ReturnDate => By.Id("search-return-date");
         public static By Arrival => By.CssSelector("label.return-date-input");
+        
+        
+    }
+
+    public static class Calendar
+    {
         public static By AvailableDates => By.CssSelector("td[data-day]:not(.is-disabled) > button");
         public static By OneWayOnly => By.XPath("//*[contains(text(),'One way only')]");
+        public static By OkButton => By.XPath("//button[contains(text(), 'OK')]");
     }
 
     public static class Navigation

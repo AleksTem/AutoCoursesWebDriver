@@ -3,10 +3,9 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using WizzAir.Components.Enums;
 using WizzAir.Components.Models;
 
 
@@ -14,55 +13,85 @@ namespace WizzAir.Components.PageObjects
 {
     public class StartPage : BasePage
     {
+        #region Fields
         private IWebDriver _driver;
         private WebDriverWait _wait;
+        #endregion
 
+        #region Constructor
         public StartPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _driver = driver;
             _wait = wait;
             WaitForDocumentReady();
         }
-
+        #endregion
 
 
 
         public StartPage SetOriginAirPort(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException($"Airport name is Null or Empty : {MethodBase.GetCurrentMethod().Name}");
+            }
             return SetAirPort(Airport.Departure, value);
         }
 
         public StartPage SetDestinationAirport(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException($"Airport name is Null or Empty : {MethodBase.GetCurrentMethod().Name}");
+            }
             return SetAirPort(Airport.Arrival, value);
         }
 
+        /// <summary>
+        /// Selects FlightDetails.DepartureDate on calendar, or picks up nearest available date, if FlightDetails.DepartureDate == null
+        /// </summary>
+        /// <param name="flight"></param>
+        /// <returns>StartPage, in param flight set selected date</returns>
         public StartPage SetDepartureDate(ref FlightDetails flight)
         {
+            if (flight == null)
+            {
+                throw new ArgumentNullException($"Flight details is null : {MethodBase.GetCurrentMethod().Name}");
+            }
             if (flight.DepartureDate.Equals(null))
             {
-                _wait.Until(ExpectedConditions.ElementToBeClickable(FlightDate.Departure)).Click();
-                IWebElement flightDateElement = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(FlightDate.AvailableDates)).ToList()[5];
-                int year = Int32.Parse(flightDateElement.GetAttribute("data-pika-year"));
-                int month = Int32.Parse(flightDateElement.GetAttribute("data-pika-month")) + 1;
-                int day = Int32.Parse(flightDateElement.GetAttribute("data-pika-day"));
-                Assert.That(flightDateElement.Text, Is.EqualTo(day.ToString()));
-                flightDateElement.Click();
-
-                flight.DepartureDate = new DateTime(year, month, day);
-
-                if (flight.ReturnDate.Equals(null))
-                {
-                    _wait.Until(ExpectedConditions.ElementToBeClickable(FlightDate.OneWayOnly));
-                    WaitForDocumentReady();
-                    WaitForBlocker();
-                    _wait.Until(ExpectedConditions.ElementExists(FlightDate.OneWayOnly)).Click();
-                    return this;
-                }
-                else throw new Exception("Not implemented yet.");
+                DepartureDate.Click();
+                return new CalendarPopUp(_driver, _wait)
+                    .PickFirstAvailableDate(Direction.Departure, ref flight);
             }
-            else throw new Exception("Not implemented yet.");
+            else throw new NotImplementedException("Set particular departure date is not implemented yet.");
         }
+
+        /// <summary>
+        /// Selects FlightDetails.ReturnDate on calendar, or performs OneWayOnly.Click, if FlightDetails.DepartureDate == null
+        /// </summary>
+        /// <param name="flight"></param>
+        /// <returns></returns>
+        public StartPage SetReturnDate(ref FlightDetails flight)
+        {
+            if (flight == null)
+            {
+                throw new ArgumentNullException($"Flight details is null : {MethodBase.GetCurrentMethod().Name}");
+            }
+            else
+            {
+                if (flight.ReturnDate == null)
+                {
+                    ReturnDate.Click();
+                    return new CalendarPopUp(_driver, _wait).SelectOneWayOnly();
+                }
+                else
+                {
+                    throw new NotImplementedException("Set particular date not implemented yet.");
+                }
+            }
+        }
+
 
         public SelectFlightPage Search()
         {
@@ -82,5 +111,13 @@ namespace WizzAir.Components.PageObjects
 
             return this;
         }
+
+        #region Properties
+
+        private IWebElement DepartureDate => _wait.Until(ExpectedConditions.ElementToBeClickable(FlightDate.DepartureDate));
+        private IWebElement ReturnDate => _wait.Until(ExpectedConditions.ElementToBeClickable(FlightDate.ReturnDate));
+        #endregion
+
+
     }
 }
