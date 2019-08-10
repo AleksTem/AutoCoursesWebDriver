@@ -1,19 +1,23 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using WD_Tests.WizzAir;
-using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WizzAir.Components.Models;
 
-namespace HW1.PageObjects
+namespace WizzAir.Components.PageObjects
 {
-    public class WizzAirSelectFlightPage : WizzAirBasePage
+    class SelectFlightPage : BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;
 
-        public WizzAirSelectFlightPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
+        public SelectFlightPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _driver = driver;
             _wait = wait;
@@ -22,7 +26,7 @@ namespace HW1.PageObjects
             WaitForDocumentReady();
         }
 
-        public void VerifyContent(FlightDetail expected)
+        public void VerifyContent(FlightDetails expected)
         {
 
             /*- Verify:
@@ -46,7 +50,7 @@ namespace HW1.PageObjects
 
         private IWebElement Route => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.Address));
         private IWebElement FlightDate => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.FlightDate));
-        private ReadOnlyCollection<IWebElement>  ReturnFlightBlock => _driver.FindElements(SelectFlightElements.ReturnFlight);
+        private ReadOnlyCollection<IWebElement> ReturnFlightBlock => _driver.FindElements(SelectFlightElements.ReturnFlight);
         private IWebElement PriceButton => _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.PriceButton));
     }
 }

@@ -9,7 +9,6 @@ namespace WD_Tests
     public class BaseFixture
     {
         protected IWebDriver Driver;
-        ////protected string HomeURL;
         protected WebDriverWait Wait;
 
         [OneTimeSetUp]
@@ -24,7 +23,7 @@ namespace WD_Tests
         [OneTimeTearDown]
         public void TearDownTest()
         {
-            //Driver.Quit();
+            Driver.Quit();
         }
 
     }

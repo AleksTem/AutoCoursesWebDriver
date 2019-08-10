@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDTasks", "HW1\WDTasks.csproj", "{14E27F69-FF5E-4758-99F2-3DE2A2F8FC9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizzAir", "WizzAir\WizzAir.csproj", "{44CF045B-E9DA-4B15-AB26-D87D668CE366}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizzAirTests", "WizzAirTests\WizzAirTests.csproj", "{D763BB76-5A6C-45EF-A184-1F091E908E6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{14E27F69-FF5E-4758-99F2-3DE2A2F8FC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14E27F69-FF5E-4758-99F2-3DE2A2F8FC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14E27F69-FF5E-4758-99F2-3DE2A2F8FC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44CF045B-E9DA-4B15-AB26-D87D668CE366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44CF045B-E9DA-4B15-AB26-D87D668CE366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44CF045B-E9DA-4B15-AB26-D87D668CE366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44CF045B-E9DA-4B15-AB26-D87D668CE366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D763BB76-5A6C-45EF-A184-1F091E908E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D763BB76-5A6C-45EF-A184-1F091E908E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D763BB76-5A6C-45EF-A184-1F091E908E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D763BB76-5A6C-45EF-A184-1F091E908E6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

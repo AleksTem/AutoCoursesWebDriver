@@ -6,7 +6,6 @@ using WD_Tests.WizzAir;
 
 namespace WD_Tests
 {
-    //using _ = WizzAirUtils;
     [TestFixture]
     [Description("WD Practice Part2. wizzair.com")]
     public class WizzAirTests : BaseFixture
@@ -28,7 +27,8 @@ namespace WD_Tests
                 DepartureAirport = "Kyiv - Zhulyany",
                 ArrivalAirport = "Copenhagen",
                 DepartureDate = null,
-                ReturnDate = null
+                ReturnDate = null,
+                Passengers = 1
             };
 
             MainWizzairPage.SetOriginAirPort(flight.DepartureAirport)
@@ -55,9 +55,6 @@ namespace WD_Tests
             }
 
             private readonly object Wait;
-
-            //DateTime FlightDate => Wait.
-            //ControlDefinition[".flight-select__fare-selector"]
         }
     }
 }

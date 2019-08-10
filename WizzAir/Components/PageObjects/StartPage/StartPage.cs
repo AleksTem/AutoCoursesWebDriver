@@ -1,19 +1,23 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using WD_Tests.WizzAir;
-using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
+using System.Text;
+using System.Threading.Tasks;
+using WizzAir.Components.Models;
 
-namespace HW1.PageObjects
+
+namespace WizzAir.Components.PageObjects
 {
-    public class WizzAirHomePage : WizzAirBasePage
+    class StartPage : BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;
 
-        public WizzAirHomePage(IWebDriver driver, WebDriverWait wait) : base (driver, wait)
+        public StartPage(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _driver = driver;
             _wait = wait;
@@ -23,17 +27,17 @@ namespace HW1.PageObjects
 
 
 
-        public WizzAirHomePage SetOriginAirPort(string value)
+        public StartPage SetOriginAirPort(string value)
         {
             return SetAirPort(Airport.Departure, value);
         }
 
-        public WizzAirHomePage SetDestinationAirport(string value)
+        public StartPage SetDestinationAirport(string value)
         {
             return SetAirPort(Airport.Arrival, value);
         }
 
-        public WizzAirHomePage SetDepartureDate(ref FlightDetail flight)
+        public StartPage SetDepartureDate(ref FlightDetails flight)
         {
             if (flight.DepartureDate.Equals(null))
             {
@@ -60,15 +64,15 @@ namespace HW1.PageObjects
             else throw new Exception("Not implemented yet.");
         }
 
-        public WizzAirSelectFlightPage Search()
+        public SelectFlightPage Search()
         {
             _wait.Until(ExpectedConditions.ElementToBeClickable(Navigation.SearchBtn)).Click();
             _driver.SwitchTo().Window(_driver.WindowHandles.First()).Close();
             _driver.SwitchTo().Window(_driver.WindowHandles.Last());
-            return new WizzAirSelectFlightPage(_driver, _wait);
+            return new SelectFlightPage(_driver, _wait);
         }
 
-        private WizzAirHomePage SetAirPort(By selector, string value)
+        private StartPage SetAirPort(By selector, string value)
         {
             IWebElement inputElement = _wait.Until(ExpectedConditions.ElementExists(selector));
             inputElement.Clear();
@@ -78,6 +82,5 @@ namespace HW1.PageObjects
 
             return this;
         }
-
     }
 }

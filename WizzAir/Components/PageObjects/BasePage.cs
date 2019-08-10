@@ -1,16 +1,20 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
-using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
+using System.Threading.Tasks;
 
-namespace HW1.PageObjects
+namespace WizzAir.Components.PageObjects
 {
-    public class WizzAirBasePage
+    class BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;
-        public WizzAirBasePage(IWebDriver driver, WebDriverWait wait)
+        public BasePage(IWebDriver driver, WebDriverWait wait)
         {
             _driver = driver;
             _wait = wait;
@@ -20,7 +24,7 @@ namespace HW1.PageObjects
         {
             while (true)
             {
-                if (((IJavaScriptExecutor) _driver).ExecuteScript("return document.readyState").Equals("complete"))
+                if (((IJavaScriptExecutor)_driver).ExecuteScript("return document.readyState").Equals("complete"))
                 {
                     break;
                 }
@@ -35,5 +39,6 @@ namespace HW1.PageObjects
             _wait.Timeout = TimeSpan.FromSeconds(50);
             _wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(".loader-combined")));
         }
+
     }
 }
