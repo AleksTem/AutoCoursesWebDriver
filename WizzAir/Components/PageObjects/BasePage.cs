@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WizzAir.Components.PageObjects
 {
-    class BasePage
+    public class BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;

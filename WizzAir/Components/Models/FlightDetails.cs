@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WizzAir.Components.Models
 {
-    class FlightDetails
+    public class FlightDetails
     {
         public string DepartureAirport { get; set; }
         public string ArrivalAirport { get; set; }

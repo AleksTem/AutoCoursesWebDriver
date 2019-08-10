@@ -12,7 +12,7 @@ using WizzAir.Components.Models;
 
 namespace WizzAir.Components.PageObjects
 {
-    class SelectFlightPage : BasePage
+    public class SelectFlightPage : BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;

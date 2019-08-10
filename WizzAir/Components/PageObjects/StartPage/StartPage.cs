@@ -12,7 +12,7 @@ using WizzAir.Components.Models;
 
 namespace WizzAir.Components.PageObjects
 {
-    class StartPage : BasePage
+    public class StartPage : BasePage
     {
         private IWebDriver _driver;
         private WebDriverWait _wait;
@@ -42,7 +42,7 @@ namespace WizzAir.Components.PageObjects
             if (flight.DepartureDate.Equals(null))
             {
                 _wait.Until(ExpectedConditions.ElementToBeClickable(FlightDate.Departure)).Click();
-                IWebElement flightDateElement = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(FlightDate.AvailableDates)).ToList()[5];//.FirstOrDefault();
+                IWebElement flightDateElement = _wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(FlightDate.AvailableDates)).ToList()[5];
                 int year = Int32.Parse(flightDateElement.GetAttribute("data-pika-year"));
                 int month = Int32.Parse(flightDateElement.GetAttribute("data-pika-month")) + 1;
                 int day = Int32.Parse(flightDateElement.GetAttribute("data-pika-day"));
