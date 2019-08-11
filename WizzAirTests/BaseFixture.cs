@@ -24,7 +24,7 @@ namespace WizzAirTests
         [OneTimeTearDown]
         public void TearDownTest()
         {
-            _driver.Quit();
+            //_driver.Quit();
         }
 
     }

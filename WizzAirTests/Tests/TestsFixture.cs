@@ -40,7 +40,9 @@ namespace WizzAirTests.Tests
                 .SetReturnDate(ref flight)
                 .Search()
                 .VerifySelectedFlightContent(flight)
-                .ChoosePrice(ServiceLevel.WizzGo);
+                .ChoosePrice(ServiceLevel.WizzGo)
+                .ContinueSelect()
+                .FillPassangerName();
 
         }
 

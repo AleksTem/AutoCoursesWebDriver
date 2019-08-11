@@ -14,8 +14,10 @@ namespace WizzAir.Components.PageObjects
         public static By ReturnFlight => By.Id("return-fare-selector");
         public static By PriceButton => By.CssSelector(".fare-type-button__title--active");
 
-        public static By WizzGoPriceButton => By.CssSelector(".fare-type-button__title--active");
-        public static By WizzPlusPriceButton => By.CssSelector(".fare-type-button__title--active");
-        public static By WizzBasicPriceButton => By.CssSelector(".fare-type-button__title--active");
+        public static By WizzGoPriceButton => By.CssSelector(".flight-select__fare--middle .fare-type-button__title--active");
+        public static By WizzPlusPriceButton => By.CssSelector(".flight-select__fare--plus .fare-type-button__title--active");
+        public static By WizzBasicPriceButton => By.CssSelector(".flight-select__fare--basic .fare-type-button__title--active");
+
+        public static By ContinueButton => By.Id("flight-select-continue-button");
     }
 }

@@ -21,18 +21,6 @@ namespace WizzAir.Components.PageObjects
             _wait = wait;
         }
 
-        public void WaitForDocumentReady()
-        {
-            while (true)
-            {
-                if (((IJavaScriptExecutor)_driver).ExecuteScript("return document.readyState").Equals("complete"))
-                {
-                    break;
-                }
-                Thread.Sleep(100);
-            }
-        }
-
         public void WaitForBlocker()
         {
             TimeSpan temp = _wait.Timeout;

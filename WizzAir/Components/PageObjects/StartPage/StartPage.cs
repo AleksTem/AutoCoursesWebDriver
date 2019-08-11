@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using WizzAir.Components.Enums;
 using WizzAir.Components.Models;
-
+using WizzAir.Utils.Extensions;
 
 namespace WizzAir.Components.PageObjects
 {
@@ -23,7 +23,7 @@ namespace WizzAir.Components.PageObjects
         {
             _driver = driver;
             _wait = wait;
-            WaitForDocumentReady();
+            _driver.WaitForDocumentReadyState();
         }
         #endregion
 
