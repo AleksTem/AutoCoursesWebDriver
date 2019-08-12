@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WD_Tests;
 using WizzAir.Components.Enums;
 using WizzAir.Components.Models;
 using WizzAir.Utils.Extensions;
@@ -62,9 +63,17 @@ namespace WizzAir.Components.PageObjects
 
         public PassangerPage ContinueSelect()
         {
+            
+            _driver.WaitForDocumentReadyState();
+            _driver.ScrollWindowDown();
             var t = FlightSelectContinueButton;
             _driver.ScrollIntoView(t);
+            
+            _wait.Until(CustomConditions.WizzElementBeEnabled(t));
             t.Click();
+            _wait.Until(CustomConditions.WizzElementBeEnabled(t));
+            _driver.WaitForDocumentReadyState();
+            
             return new PassangerPage(_driver, _wait);
         }
 
