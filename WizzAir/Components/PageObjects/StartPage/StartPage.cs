@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
@@ -60,7 +61,7 @@ namespace WizzAir.Components.PageObjects
             }
             if (flight.DepartureDate.Equals(null))
             {
-                DepartureDate.Click();
+                new Actions(_driver).MoveToElement(DepartureDate).Click().Build().Perform();
                 return new CalendarPopUp(_driver, _wait)
                     .PickFirstAvailableDate(Direction.Departure, ref flight);
             }
@@ -83,6 +84,7 @@ namespace WizzAir.Components.PageObjects
                 if (flight.ReturnDate == null)
                 {
                     ReturnDate.Click();
+                    new Actions(_driver).MoveToElement(ReturnDate).Click().Build().Perform();
                     return new CalendarPopUp(_driver, _wait).SelectOneWayOnly();
                 }
                 else

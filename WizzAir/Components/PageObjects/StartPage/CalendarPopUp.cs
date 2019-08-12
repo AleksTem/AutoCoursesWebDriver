@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using WizzAir.Components.Enums;
@@ -35,13 +36,16 @@ namespace WizzAir.Components.PageObjects
             }
             pickedDate.Click();
             WaitForBlocker();
-            Retry.Do(()=> OkButton.Click(),TimeSpan.FromSeconds(5), maxAttemptCount: 10);
+            Retry.Do(()=> new Actions(_driver).MoveToElement(OkButton).Click().Build().Perform(),
+                TimeSpan.FromSeconds(5), maxAttemptCount: 5);
             return new StartPage(_driver, _wait);
         }
 
         public StartPage SelectOneWayOnly()
         {
-            Retry.Do(() => OneWayButton.Click(), TimeSpan.FromSeconds(5), maxAttemptCount: 10);
+            Retry.Do(() => 
+                new Actions(_driver).MoveToElement(OneWayButton).Click().Build().Perform(), 
+                TimeSpan.FromSeconds(5), maxAttemptCount: 5);
             return new StartPage(_driver, _wait);
         }
 

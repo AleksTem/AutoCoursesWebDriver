@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WizzAir.Utils.Configs;
 using WizzAir.Utils.Helpers;
 
 namespace WizzAir.Components.PageObjects
@@ -22,11 +23,10 @@ namespace WizzAir.Components.PageObjects
         }
 
         public void WaitForBlocker()
-        {
-            TimeSpan temp = _wait.Timeout;
-            _wait.Timeout = TimeSpan.FromSeconds(120);
+        {            
+            _wait.Timeout = DriverConfig.MiddleWait;
             _wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(".loader-combined")));
-            _wait.Timeout = temp;
+            _wait.Timeout = DriverConfig.LowWait;
         }
 
     }

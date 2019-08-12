@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using WD_Tests;
 using WizzAir.Components.Enums;
 using WizzAir.Components.Models;
+using WizzAir.Utils.Configs;
 using WizzAir.Utils.Extensions;
 
 namespace WizzAir.Components.PageObjects
@@ -61,20 +62,22 @@ namespace WizzAir.Components.PageObjects
             return this;
         }
 
-        public PassangerPage ContinueSelect()
+        public PassengerPage ContinueSelect()
         {
             
             _driver.WaitForDocumentReadyState();
             _driver.ScrollWindowDown();
             var t = FlightSelectContinueButton;
             _driver.ScrollIntoView(t);
-            
+
+            _wait.Timeout = DriverConfig.ExtraWait;
             _wait.Until(CustomConditions.WizzElementBeEnabled(t));
             t.Click();
             _wait.Until(CustomConditions.WizzElementBeEnabled(t));
+            _wait.Timeout = DriverConfig.LowWait;
             _driver.WaitForDocumentReadyState();
             
-            return new PassangerPage(_driver, _wait);
+            return new PassengerPage(_driver, _wait);
         }
 
         private DateTime DepartureDate {
@@ -131,11 +134,10 @@ namespace WizzAir.Components.PageObjects
         { get
             {
                 _driver.WaitForDocumentReadyState();
-                var temp = _wait.Timeout;
-                _wait.Timeout = TimeSpan.FromSeconds(60);
+                _wait.Timeout = DriverConfig.ExtraWait;
                 _wait.Until(ExpectedConditions.ElementIsVisible(SelectFlightElements.ContinueButton));
                 _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.ContinueButton));
-                _wait.Timeout = temp;
+                _wait.Timeout = DriverConfig.LowWait;
                 return _driver.FindElement(SelectFlightElements.ContinueButton);
             }
         }

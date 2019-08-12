@@ -34,6 +34,13 @@ namespace WizzAirTests.Tests
                 ReturnDate = null
             };
 
+            var passenger = new Passenger
+            {
+                FirstName = "Oleksandr",
+                LastName = "Kovalenko",
+                Gender = true
+            };
+
             startPage.SetOriginAirPort(flight.DepartureAirport)
                 .SetDestinationAirport(flight.ArrivalAirport)
                 .SetDepartureDate(ref flight)
@@ -42,7 +49,11 @@ namespace WizzAirTests.Tests
                 .VerifySelectedFlightContent(flight)
                 .ChoosePrice(ServiceLevel.WizzGo)
                 .ContinueSelect()
-                .FillPassangerName();
+                .FillInPassangerDetails(passenger)
+                .VerifyRoute(flight)
+                .PickLaggage()
+                .Continue()
+                .VerifySignInPage();
 
         }
 

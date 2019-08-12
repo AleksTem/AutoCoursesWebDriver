@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WizzAir</RootNamespace>
     <AssemblyName>WizzAir</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,13 +56,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Enums\Direction.cs" />
+    <Compile Include="Components\Enums\Laggage.cs" />
     <Compile Include="Components\Enums\ServiceLevel.cs" />
     <Compile Include="Components\Models\FlightDetails.cs" />
+    <Compile Include="Components\Models\Passenger.cs" />
     <Compile Include="Components\PageObjects\BasePage.cs" />
-    <Compile Include="Components\PageObjects\PassangerPage\PageElements.cs" />
-    <Compile Include="Components\PageObjects\PassangerPage\PassangerPage.cs" />
+    <Compile Include="Components\PageObjects\PassengerPage\PageElements.cs" />
+    <Compile Include="Components\PageObjects\PassengerPage\PassengerPage.cs" />
     <Compile Include="Components\PageObjects\SelectFlightPage\PageElements.cs" />
     <Compile Include="Components\PageObjects\SelectFlightPage\SelectFlightPage.cs" />
+    <Compile Include="Components\PageObjects\SignInPage\PageElements.cs" />
+    <Compile Include="Components\PageObjects\SignInPage\SignInPage.cs" />
     <Compile Include="Components\PageObjects\StartPage\CalendarPopUp.cs" />
     <Compile Include="Components\PageObjects\StartPage\PageElements.cs" />
     <Compile Include="Components\PageObjects\StartPage\StartPage.cs" />
