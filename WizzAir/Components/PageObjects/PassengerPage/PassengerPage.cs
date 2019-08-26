@@ -36,6 +36,7 @@ namespace WizzAir.Components.PageObjects
 
         private PassengerPage PickGender(Passenger p)
         {
+            _driver.WaitForDocumentReadyState();
             IWebElement elem = p.Gender ? Male : Female;
             new Actions(_driver).MoveToElement(elem).Click().Build().Perform();
             return this;

@@ -25,7 +25,7 @@ namespace WizzAir.Components.PageObjects
 
         public StartPage PickFirstAvailableDate(Direction direction, ref FlightDetails flight)
         {
-            IWebElement pickedDate = AvailableDatesList[5];//.FirstOrDefault();
+            IWebElement pickedDate = AvailableDatesList[4];//.FirstOrDefault();
             if (direction == Direction.Departure)
             {
                 flight.DepartureDate = ParseDateFromCalendarElement(pickedDate);

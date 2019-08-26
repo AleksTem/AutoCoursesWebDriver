@@ -11,7 +11,7 @@ namespace WizzAir.Utils.Extensions
 {
     public static class WebDriverExtensions
     {
-        public static void ScrollIntoView(this IWebDriver driver, IWebElement element)
+        public static void ScrollIntoViewJS(this IWebDriver driver, IWebElement element)
         {
             if (driver is null)
             {
@@ -59,6 +59,11 @@ namespace WizzAir.Utils.Extensions
             }
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
             Thread.Sleep(500);
+        }
+
+        public static void ClickViaAction(this IWebDriver driver, IWebElement element)
+        {
+            new Actions(driver).MoveToElement(element).Click().Build().Perform();
         }
     }
 }

@@ -46,19 +46,34 @@ namespace WizzAir.Components.PageObjects
 
         public SelectFlightPage ChoosePrice(ServiceLevel priceLevel)
         {
+            
+            //var t = PriceBlockDiv;
+            //_driver.ScrollToElement(t);
+            //WizzGoPrice.Click();
+
+            //_driver.WaitForDocumentReadyState();
             PriceButton.Click();
-            switch (priceLevel)
-            {
-                case ServiceLevel.WizzBasic:
-                    WizzBasicPrice.Click();
-                    break;
-                case ServiceLevel.WizzGo:
-                    WizzGoPrice.Click();
-                    break;
-                case ServiceLevel.WizzPlus:
-                    WizzPlusPrice.Click();
-                    break;
-            }
+            _driver.WaitForDocumentReadyState();
+            //_driver.ScrollWindowDown();
+            _driver.ScrollToElement(ScrollAnchor);
+            _driver.ClickViaAction(PriceButton);
+            _driver.WaitForDocumentReadyState();
+
+            //switch (priceLevel)
+            //{
+            //    case ServiceLevel.WizzBasic:
+            //        //_driver.ScrollToElement(WizzBasicPrice);
+            //        _driver.ClickViaAction(WizzBasicPrice);
+            //        break;
+            //    case ServiceLevel.WizzGo:
+            //        //_driver.ScrollToElement(WizzGoPrice);
+            //        _driver.ClickViaAction(WizzGoPrice);
+            //        break;
+            //    case ServiceLevel.WizzPlus:
+            //        //_driver.ScrollToElement(WizzPlusPrice);
+            //        _driver.ClickViaAction(WizzPlusPrice);
+            //        break;
+            //}
             return this;
         }
 
@@ -68,10 +83,11 @@ namespace WizzAir.Components.PageObjects
             _driver.WaitForDocumentReadyState();
             _driver.ScrollWindowDown();
             var t = FlightSelectContinueButton;
-            _driver.ScrollIntoView(t);
-
+            //_driver.ScrollIntoViewJS(t);
+            _driver.ScrollWindowDown();
             _wait.Timeout = DriverConfig.ExtraWait;
             _wait.Until(CustomConditions.WizzElementBeEnabled(t));
+            
             t.Click();
             _wait.Until(CustomConditions.WizzElementBeEnabled(t));
             _wait.Timeout = DriverConfig.LowWait;
@@ -79,6 +95,8 @@ namespace WizzAir.Components.PageObjects
             
             return new PassengerPage(_driver, _wait);
         }
+
+        //public Selectflight
 
         private DateTime DepartureDate {
             get
@@ -93,19 +111,23 @@ namespace WizzAir.Components.PageObjects
         }
 
         private IWebElement RouteElem => 
-            _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.Address));
+            _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.Address));
         private IWebElement FlightDateElem => 
-            _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.FlightDate));
+            _wait.Until(ExpectedConditions.ElementToBeClickable(SelectFlightElements.FlightDate));
         private ReadOnlyCollection<IWebElement> ReturnFlightBlock => 
             _driver.FindElements(SelectFlightElements.ReturnFlight);
         private IWebElement PriceButton => 
             _wait.Until(ExpectedConditions.ElementExists(SelectFlightElements.PriceButton));
+
+        private IWebElement ScrollAnchor => _wait.Until(
+            ExpectedConditions.ElementIsVisible(SelectFlightElements.ScrollAnchor));
+
         private IWebElement WizzBasicPrice
         {
             get
             {
                 IWebElement element = _driver.FindElement(SelectFlightElements.WizzGoPriceButton);
-                _driver.ScrollIntoView(element);
+                _driver.ScrollIntoViewJS(element);
                 return _wait.Until(ExpectedConditions.ElementToBeClickable(element));
             }
         }
@@ -115,7 +137,7 @@ namespace WizzAir.Components.PageObjects
             get
             {
                 IWebElement element = _driver.FindElement(SelectFlightElements.WizzGoPriceButton);
-                _driver.ScrollIntoView(element);
+                _driver.ScrollIntoViewJS(element);
                 return _wait.Until(ExpectedConditions.ElementToBeClickable(element));
             }
         } 
@@ -125,7 +147,7 @@ namespace WizzAir.Components.PageObjects
             get
             {
                 IWebElement element = _driver.FindElement(SelectFlightElements.WizzGoPriceButton);
-                _driver.ScrollIntoView(element);
+                _driver.ScrollIntoViewJS(element);
                 return _wait.Until(ExpectedConditions.ElementToBeClickable(element));
             }
         }
@@ -141,6 +163,8 @@ namespace WizzAir.Components.PageObjects
                 return _driver.FindElement(SelectFlightElements.ContinueButton);
             }
         }
+
+        
             
     }
 }
